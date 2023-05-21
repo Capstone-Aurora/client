@@ -1,85 +1,31 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
 import "./App.css";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-function file_send(ip, file) {
-	const formData = new FormData();
-	formData.append("file", file);
-
-	axios
-		.post("file_send", formData, {
-			headers: {
-				"Content-Type": "multipart/form-data",
-				ip: ip,
-			},
-		})
-		.then((result) => {
-			console.log("result");
-			console.log(result.data);
-		});
-}
+import Home from "./Home";
+import Dependency from "./Dependency";
+import Vulnerable from "./Vulnerable";
+import Details from "./Details";
+import Error from "./Error";
 
 function App() {
-	const [file, setFile] = useState(null);
-	const [ip, setIP] = useState("");
-	const [hover, setHover] = useState(false);
-
-	const handleDrop = (e) => {
-		e.preventDefault();
-		const file = e.dataTransfer.files[0];
-		setFile(file);
-	};
-
-	const handleDragOver = (e) => {
-		e.preventDefault();
-		setHover(true);
-	};
-
-	const handleDragLeave = () => {
-		setHover(false);
-	};
-
-	const getData = async () => {
-		const res = await axios.get("https://geolocation-db.com/json/");
-		setIP(res.data.IPv4);
-	};
-	useEffect(() => {
-		getData();
-		console.log(ip);
-	}, []);
-
 	return (
 		<div className="App">
-			<div
-				className={`file-uploader ${hover ? "hover" : ""}`}
-				onDrop={handleDrop}
-				onDragOver={handleDragOver}
-				onDragLeave={handleDragLeave}
-			>
-				<div className="file-uploader-text">
-					<h2>Drag the file here!</h2>
-					{file && (
-						<>
-							<h3>File details</h3>
-							<p>Name: {file.name}</p>
-							<p>Size: {file.size} bytes</p>
-							<p>Type: {file.type}</p>
-						</>
-					)}
-				</div>
-			</div>
-
-			{file && (
-				<button
-					className="file-uploader-button"
-					onClick={() => {
-						file_send(ip, file);
-					}}
-				>
-					Send
-				</button>
-			)}
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/home" element={<Home />} />
+					<Route path="/dependency" element={<Dependency />} />
+					<Route path="/details" element={<Details />} />
+					<Route path="/vulnerable" element={<Vulnerable />} />
+					<Route
+						path="*"
+						element={
+							<Error errno={404} errdsc={"There is no page."} />
+						}
+					/>
+				</Routes>
+			</BrowserRouter>
 		</div>
 	);
 }
