@@ -72,14 +72,38 @@ function Home() {
 			</div>
 
 			{file && (
-				<button
-					className="file-uploader-button"
-					onClick={() => {
-						file_send(ip, file);
-					}}
-				>
-					Analyze
-				</button>
+				<div>
+					<Link to="/dependency">
+						<button
+							className="file-uploader-button"
+							onClick={() => {
+								file_send(ip, file);
+							}}
+						>
+							Dependency Analysis
+						</button>
+					</Link>
+					<Link to="/vulnerable">
+						<button
+							className="file-uploader-button"
+							onClick={() => {
+								file_send(ip, file);
+							}}
+						>
+							Vulnerability Analysis
+						</button>
+					</Link>
+					<Link to="/details">
+						<button
+							className="file-uploader-button"
+							onClick={() => {
+								file_send(ip, file);
+							}}
+						>
+							Details
+						</button>
+					</Link>
+				</div>
 			)}
 		</div>
 	);
