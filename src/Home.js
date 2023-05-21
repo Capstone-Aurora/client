@@ -22,14 +22,22 @@ function file_send(ip, file) {
 }
 
 function Home() {
-	const [file, setFile] = useState(null);
+	const [file, setFile] = useState(localStorage.getItem("file"));
+	const [fileName, setFileName] = useState(localStorage.getItem("fileName"));
 	const [ip, setIP] = useState("");
 	const [hover, setHover] = useState(false);
 
 	const handleDrop = (e) => {
 		e.preventDefault();
 		const file = e.dataTransfer.files[0];
+
 		setFile(file);
+		console.log(file.name);
+		setFileName(file.name);
+		file_send(ip, file);
+
+		localStorage.setItem("file", file);
+		localStorage.setItem("fileName", fileName);
 	};
 
 	const handleDragOver = (e) => {
@@ -45,6 +53,7 @@ function Home() {
 		const res = await axios.get("https://geolocation-db.com/json/");
 		setIP(res.data.IPv4);
 	};
+
 	useEffect(() => {
 		getData();
 		console.log(ip);
@@ -63,7 +72,7 @@ function Home() {
 					{file && (
 						<>
 							<h3>File details</h3>
-							<p>Name: {file.name}</p>
+							<p>Name: {fileName}</p>
 							<p>Size: {file.size} bytes</p>
 							<p>Type: {file.type}</p>
 						</>
@@ -76,9 +85,7 @@ function Home() {
 					<Link to="/dependency">
 						<button
 							className="file-uploader-button"
-							onClick={() => {
-								file_send(ip, file);
-							}}
+							onClick={() => {}}
 						>
 							Dependency Analysis
 						</button>
