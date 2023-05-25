@@ -16,14 +16,13 @@ function file_send(ip, file) {
 			},
 		})
 		.then((result) => {
-			console.log("result");
-			console.log(result.data);
+			console.log("file_send result", result.data);
 		});
 }
 
 function Home() {
-	const [file, setFile] = useState(localStorage.getItem("file"));
-	const [fileName, setFileName] = useState(localStorage.getItem("fileName"));
+	const [file, setFile] = useState();
+	const [fileName, setFileName] = useState();
 	const [ip, setIP] = useState("");
 	const [hover, setHover] = useState(false);
 
@@ -32,12 +31,11 @@ function Home() {
 		const file = e.dataTransfer.files[0];
 
 		setFile(file);
-		console.log(file.name);
 		setFileName(file.name);
 		file_send(ip, file);
 
-		localStorage.setItem("file", file);
-		localStorage.setItem("fileName", fileName);
+		// localStorage.setItem("file", file);
+		// localStorage.setItem("fileName", fileName);
 	};
 
 	const handleDragOver = (e) => {
@@ -82,7 +80,7 @@ function Home() {
 
 			{file && (
 				<div>
-					<Link to="/dependency">
+					<Link to="/dependency" state={{ fileName: fileName }}>
 						<button
 							className="file-uploader-button"
 							onClick={() => {}}
