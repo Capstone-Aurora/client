@@ -25,8 +25,9 @@ async function get_dependency(fileName, setDependency) {
 	console.log("dependency2 : ", dependency);
 }
 
-async function send_version(fileName, versionList) {
+async function send_version(fileName, versionList, setFunc) {
 	const formData = new FormData();
+
 	formData.append("fileName", fileName);
 	formData.append("versionList", versionList);
 	await axios
@@ -36,7 +37,11 @@ async function send_version(fileName, versionList) {
 			},
 		})
 		.then((res) => {
-			console.log("send_version : ", res.data);
+			// save json file
+			var rawUrl = res.data.res;
+			var url = rawUrl.substring(15, rawUrl.length - 4);
+			console.log(url);
+			setFunc(url);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -48,6 +53,7 @@ function Dependency(props) {
 	const fileName = useLocation().state?.fileName;
 	const [dependency, setDependency] = useState([]);
 	const [formData, setFormData] = useState([]);
+	const [img, setImg] = useState([]);
 
 	const handleInputChange = (index, event) => {
 		const values = [...formData];
@@ -64,7 +70,7 @@ function Dependency(props) {
 				version_List += dependency[i] + "==" + formData[i] + '"';
 			else version_List += dependency[i] + "==" + formData[i] + "\\";
 		}
-		send_version(fileName, version_List);
+		send_version(fileName, version_List, setImg);
 	};
 
 	useEffect(() => {
@@ -95,6 +101,14 @@ function Dependency(props) {
 				))}
 				<br />
 				<button onClick={submit}>Submit</button>
+				<div>
+					{img && (
+						<img
+							src="http://pwnable.co.kr/dependencies.png"
+							alt="Image"
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);
