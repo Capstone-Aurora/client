@@ -11,7 +11,7 @@ import Error from "./Error";
 function App() {
 	return (
 		<div className="App">
-			<BrowserRouter>
+			<BrowserRouter basename="/home/">
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/home" element={<Home />} />
