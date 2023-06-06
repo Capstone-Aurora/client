@@ -93,16 +93,13 @@ function Home() {
 								Dependency & Vulnerability Analysis
 							</button>
 						</Link>
-						<Link to="/details">
-							<button
-								className="file-uploader-button"
-								onClick={() => {}}
-							>
-								Open Source Vulnerability Flow Analysis
-							</button>
-						</Link>
 					</div>
 				)}
+				<Link to="/details" state={{ fileName: fileName }}>
+					<button className="file-uploader-button" onClick={() => {}}>
+						Open Source Vulnerability Flow Analysis
+					</button>
+				</Link>
 			</div>
 			<div className="home-footer">
 				<h4>Capstone Team Aurora</h4>
