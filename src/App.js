@@ -11,7 +11,7 @@ import Error from "./Error";
 function App() {
 	return (
 		<div className="App">
-			<BrowserRouter basename="/client/">
+			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/home" element={<Home />} />
@@ -31,4 +31,3 @@ function App() {
 }
 
 export default App;
-
