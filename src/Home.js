@@ -29,13 +29,11 @@ function Home() {
 	const handleDrop = (e) => {
 		e.preventDefault();
 		const file = e.dataTransfer.files[0];
+		console.log(file);
 
 		setFile(file);
 		setFileName(file.name);
 		file_send(ip, file);
-
-		// localStorage.setItem("file", file);
-		// localStorage.setItem("fileName", fileName);
 	};
 
 	const handleDragOver = (e) => {
@@ -58,58 +56,57 @@ function Home() {
 	}, []);
 
 	return (
-		<div className="Home">
-			<div
-				className={`file-uploader ${hover ? "hover" : ""}`}
-				onDrop={handleDrop}
-				onDragOver={handleDragOver}
-				onDragLeave={handleDragLeave}
-			>
-				<div className="file-uploader-text">
-					<h2>Drag the file here!</h2>
-					{file && (
-						<>
-							<h3>File details</h3>
-							<p>Name: {fileName}</p>
-							<p>Size: {file.size} bytes</p>
-							<p>Type: {file.type}</p>
-						</>
-					)}
-				</div>
+		<div className="home">
+			<div className="home-header">
+				<div className="home-header-title">OSVCAT</div>
+				<h4 className="home-header-desc">
+					Open Source Vulnerability Chaining Analyze Tools
+				</h4>
 			</div>
-
-			{file && (
-				<div>
-					<Link to="/dependency" state={{ fileName: fileName }}>
-						<button
-							className="file-uploader-button"
-							onClick={() => {}}
-						>
-							Dependency Analysis
-						</button>
-					</Link>
-					<Link to="/vulnerable">
-						<button
-							className="file-uploader-button"
-							onClick={() => {
-								file_send(ip, file);
-							}}
-						>
-							Vulnerability Analysis
-						</button>
-					</Link>
-					<Link to="/details">
-						<button
-							className="file-uploader-button"
-							onClick={() => {
-								file_send(ip, file);
-							}}
-						>
-							Details
-						</button>
-					</Link>
+			<div>
+				<div
+					className={`file-uploader ${hover ? "hover" : ""}`}
+					onDrop={handleDrop}
+					onDragOver={handleDragOver}
+					onDragLeave={handleDragLeave}
+				>
+					<div className="file-uploader-text">
+						<h2>Drag the file here!</h2>
+						{file && (
+							<>
+								<h3>File details</h3>
+								<p>Name: {fileName}</p>
+								<p>Size: {file.size} bytes</p>
+								<p>Type: {file.type}</p>
+							</>
+						)}
+					</div>
 				</div>
-			)}
+
+				{file && (
+					<div>
+						<Link to="/dependency" state={{ fileName: fileName }}>
+							<button
+								className="file-uploader-button"
+								onClick={() => {}}
+							>
+								Dependency & Vulnerability Analysis
+							</button>
+						</Link>
+						<Link to="/details">
+							<button
+								className="file-uploader-button"
+								onClick={() => {}}
+							>
+								Open Source Vulnerability Flow Analysis
+							</button>
+						</Link>
+					</div>
+				)}
+			</div>
+			<div className="home-footer">
+				<h4>Capstone Team Aurora</h4>
+			</div>
 		</div>
 	);
 }

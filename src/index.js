@@ -7,7 +7,6 @@ import { BrowserRouter } from "react-router-dom";
 
 export { default as Home } from "./Home";
 export { default as Dependency } from "./Dependency";
-export { default as Vulnerable } from "./Vulnerable";
 export { default as Details } from "./Details";
 export { default as Error } from "./Error";
 
@@ -22,4 +21,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-

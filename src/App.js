@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./Home";
 import Dependency from "./Dependency";
-import Vulnerable from "./Vulnerable";
 import Details from "./Details";
 import Error from "./Error";
 
@@ -17,7 +16,6 @@ function App() {
 					<Route path="/home" element={<Home />} />
 					<Route path="/dependency" element={<Dependency />} />
 					<Route path="/details" element={<Details />} />
-					<Route path="/vulnerable" element={<Vulnerable />} />
 					<Route
 						path="*"
 						element={

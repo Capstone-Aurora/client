@@ -8,8 +8,12 @@ async function get_dependency(fileName, setDependency) {
 	formData.append("fileName", fileName);
 	var dependency = [];
 	await axios
-		.post("http://pwnable.co.kr:42599/dependency", formData, {
+		//.post("http://pwnable.co.kr:42599/dependency", formData, {
+		.post("dependency", formData, {
 			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+				"Access-Control-Allow-Headers": "Content-Type",
 				"Content-Type": "multipart/form-data",
 			},
 		})
@@ -31,8 +35,12 @@ async function send_version(fileName, versionList, setFunc) {
 	formData.append("fileName", fileName);
 	formData.append("versionList", versionList);
 	await axios
-		.post("http://pwnable.co.kr:42599/version", formData, {
+		//.post("http://pwnable.co.kr:42599/version/", formData, {
+		.post("version", formData, {
 			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+				"Access-Control-Allow-Headers": "Content-Type",
 				"Content-Type": "multipart/form-data",
 			},
 		})
@@ -42,6 +50,38 @@ async function send_version(fileName, versionList, setFunc) {
 			var url = rawUrl.substring(15, rawUrl.length - 4);
 			console.log(url);
 			setFunc(url);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+}
+
+async function send_vurnerability(fileName, module_name, module_version) {
+	const formData = new FormData();
+
+	formData.append("fileName", fileName);
+	formData.append("module_name", module_name);
+	formData.append("module_version", module_version);
+
+	await axios
+		//.post("http://pwnable.co.kr:42599/vurnerability/", formData, {
+		.post("vulnerability", formData, {
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+				"Access-Control-Allow-Headers": "Content-Type",
+				"Content-Type": "multipart/form-data",
+			},
+		})
+		.then((res) => {
+			// save json file as class
+
+			var result = res.data.vulns;
+			console.log(result);
+
+			//map data
+
+			console.log(result);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -69,8 +109,10 @@ function Dependency(props) {
 			if (i == formData.length - 1)
 				version_List += dependency[i] + "==" + formData[i] + '"';
 			else version_List += dependency[i] + "==" + formData[i] + "\\";
+			send_vurnerability(fileName, dependency[i], formData[i]);
 		}
 		send_version(fileName, version_List, setImg);
+		setImg("http://pwnable.co.kr/dependencies.png");
 	};
 
 	useEffect(() => {
@@ -87,9 +129,10 @@ function Dependency(props) {
 			</div>
 			<div className="dependency-content">
 				{dependency.map((item, index) => (
-					// input
 					<div className="dependency-item" key={index}>
-						{item} : &nbsp;
+						<div className="dependency-item-name">
+							{item} : &nbsp;
+						</div>
 						<input
 							type="text"
 							value={formData[index] || ""}
@@ -99,17 +142,12 @@ function Dependency(props) {
 						/>
 					</div>
 				))}
-				<br />
-				<button onClick={submit}>Submit</button>
-				<div>
-					{img && (
-						<img
-							src="http://pwnable.co.kr/dependencies.png"
-							alt="Image"
-						/>
-					)}
-				</div>
+
+				<button className="file-uploader-button" onClick={submit}>
+					Submit
+				</button>
 			</div>
+			<div>{img && <img src={img} alt="Image" />}</div>
 		</div>
 	);
 }
