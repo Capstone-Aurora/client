@@ -8,7 +8,7 @@ async function get_dependency(fileName, setDependency) {
 	formData.append("fileName", fileName);
 	var dependency = [];
 	await axios
-		.post("dependency", formData, {
+		.post("http://pwnable.co.kr:42599/dependency", formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
@@ -31,7 +31,7 @@ async function send_version(fileName, versionList, setFunc) {
 	formData.append("fileName", fileName);
 	formData.append("versionList", versionList);
 	await axios
-		.post("version", formData, {
+		.post("http://pwnable.co.kr:42599/version", formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
