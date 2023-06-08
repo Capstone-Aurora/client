@@ -1,17 +1,22 @@
-.home {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 80vh;
-	width: 80vw;
-	background-color: white;
-	border-color: black;
-	border-style: solid;
-	border-width: 5px;
+html {
+	padding-left: 250px;
 }
 
-.home-header {
+.home {
+	display: flex;
+	flex-direction: row;
+	padding-left: 250px;
+	align-items: center;
+	justify-content: center;
+}
+
+.fix-header {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 250px;
+	height: 100vh;
+	background-color: #fcd96f;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -19,32 +24,88 @@
 }
 
 .home-header-title {
-	font-size: 50px;
+	display: flex;
+	font-size: 35px;
 	font-weight: bold;
-	color: rgba(2, 0, 36, 1);
+	align-items: center;
+	color: #322c4c;
+}
+
+.home-header-desc {
+	display: flex;
+	font-size: 15px;
+	font-weight: bold;
+	align-items: center;
+	color: #4f4b63;
+}
+
+.home-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+}
+
+.content {
+	display: flex;
+	background-color: #faf8f5;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+}
+
+.content-title {
+	width: 98%;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #3d365d;
+}
+
+.content-desc {
+	width: 97%;
+	font-size: 15px;
+	font-weight: bold;
+	color: black;
+}
+
+.content-box {
+	display: flex;
+	background-color: white;
+	flex-direction: column;
+	width: 98%;
+	padding-block: 10px;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgb(198, 198, 198);
+	border-radius: 8px;
 }
 
 .file-uploader {
 	display: flex;
-	height: 200px;
-	width: 500px;
-	border: 1px solid black;
-	padding: 20px;
+	height: 250px;
+	color: rgb(198, 198, 198);
+	width: 97%;
 	transition: all 0.3s;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
-	margin: auto 0;
+	align-items: center;
+	margin: 10px;
+	border: 1px solid #e6e6e6;
 }
 
 .file-uploader.hover {
-	background-color: #f2f2f2;
+	background-color: #e6e6e6;
 	border: 1px solid #ccc;
+	color: black;
 }
 
 .file-uploader:hover {
-	transform: scale(1.05);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	transform: scale(1.02);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .file-uploader h2 {
@@ -56,14 +117,38 @@
 }
 
 .file-uploader-button {
-	margin-top: 20px;
-	width: 100%;
-	height: 40px;
-	background-color: #f2f2f2;
-	border: 1px solid #ccc;
+	width: 98%;
+	background-color: white;
+	border: 1px solid rgb(198, 198, 198);
+	border-radius: 8px;
+	transition: all 0.3s;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-block: 10px;
 }
 
 .file-uploader-button:hover {
-	background-color: #e6e6e6;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	transform: scale(1.01);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.content_example {
+	display: flex;
+	padding-left: 10px;
+	flex-direction: column;
+	align-items: start;
+	justify-content: start;
+	text-decoration: none;
+	color: black;
+}
+
+.flow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	color: #f8475e;
 }

@@ -55,54 +55,85 @@ function Home() {
 		console.log(ip);
 	}, []);
 
+	const example_list = ["1", "2", "3", "4", "5"];
+	const example_desc_list = [
+		"파일 업로드를 처리하는 코드",
+		"특정 폴더 내에서 입력으로 요청받은 파일을 렌더링해서 보여주는 코드",
+		"입력을 받아 시스템 명령을 수행하는 코드",
+		"사용자 입력을 템플릿에 삽입해 렌더링하는 코드",
+		"사용자로부터 받은 데이터에 따라 쿠키에 생성하고 검증하며, 입력 데이터를 pickle로 인코딩/디코딩하는 코드",
+	];
+	const example_flow = ["2", "3", "4", "5", "6"];
+
 	return (
-		<div className="home">
-			<div className="home-header">
-				<div className="home-header-title">OSVCAT</div>
-				<h4 className="home-header-desc">
-					Open Source Vulnerability Chaining Analyze Tools
-				</h4>
+		<div>
+			<div className="fix-header">
+				<div className="home-header-title">
+					<img src="bug.png" alt="bug" width="40" height="40" />
+					&nbsp;OSVCAT&nbsp;
+				</div>
+				<br />
+				<div className="home-header-desc">
+					Open Source Vulnerability
+				</div>
+				<div className="home-header-desc">Chaining Analyze Tools</div>
+				<br />
+				<br />
+				<img src="korea.png" alt="korea" width="50" />
+				<div className="home-footer">Capstone Team Aurora</div>
+				<br />
 			</div>
-			<div>
-				<div
-					className={`file-uploader ${hover ? "hover" : ""}`}
-					onDrop={handleDrop}
-					onDragOver={handleDragOver}
-					onDragLeave={handleDragLeave}
-				>
-					<div className="file-uploader-text">
-						<h2>Drag the file here!</h2>
-						{file && (
-							<>
-								<h3>File details</h3>
-								<p>Name: {fileName}</p>
-								<p>Size: {file.size} bytes</p>
-								<p>Type: {file.type}</p>
-							</>
-						)}
+			<div className="content">
+				<div className="content-title">Code Analysis</div>
+				<div className="content-box">
+					<div className="content-desc">
+						Code Dependencies & Vulnerability Analysis
+					</div>
+					<div
+						className={`file-uploader ${hover ? "hover" : ""}`}
+						onDrop={handleDrop}
+						onDragOver={handleDragOver}
+						onDragLeave={handleDragLeave}
+					>
+						<div>
+							{file ? (
+								<>
+									<h3>File details</h3>
+									<p>Name: {fileName}</p>
+									<p>Size: {file.size} bytes</p>
+									<p>Type: {file.type}</p>
+								</>
+							) : (
+								<h2>Drag the file here!</h2>
+							)}
+						</div>
 					</div>
 				</div>
-
 				{file && (
-					<div>
-						<Link to="/dependency" state={{ fileName: fileName }}>
-							<button
-								className="file-uploader-button"
-								onClick={() => {}}
-							>
-								Dependency & Vulnerability Analysis
-							</button>
-						</Link>
-					</div>
-				)}
-				<Link to="/details" state={{ fileName: fileName }}>
 					<button className="file-uploader-button" onClick={() => {}}>
-						Open Source Vulnerability Flow Analysis
+						<Link to="/dependency" state={{ fileName: fileName }}>
+							Dependency & Vulnerability Analysis (Click)
+						</Link>
 					</button>
-				</Link>
-			</div>
-			<div className="home-footer">
-				<h4>Capstone Team Aurora</h4>
+				)}
+				<div className="content-title">
+					Example Code Vulnerability Flow
+				</div>
+				{example_list.map((example) => (
+					<button className="file-uploader-button" onClick={() => {}}>
+						<Link
+							to="/details"
+							state={{ example: example }}
+							className="content_example"
+						>
+							<h3>Code Analysis Example {example}</h3>
+							Description : {example_desc_list[example - 1]}
+							<div className="flow">
+								Number Of Flow : {example_flow[example - 1]}
+							</div>
+						</Link>
+					</button>
+				))}
 			</div>
 		</div>
 	);

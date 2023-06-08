@@ -8,7 +8,7 @@ async function get_dependency(fileName, setDependency) {
 	formData.append("fileName", fileName);
 	var dependency = [];
 	await axios
-		//.post("http://pwnable.co.kr:42599/dependency", formData, {
+		//.post("http://pwnable.co.kr:42599/dependency/", formData, {
 		.post("dependency", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
@@ -64,8 +64,8 @@ async function send_vurnerability(fileName, module_name, module_version) {
 	formData.append("module_version", module_version);
 
 	await axios
-		//.post("http://pwnable.co.kr:42599/vurnerability/", formData, {
-		.post("vulnerability", formData, {
+		.post("http://pwnable.co.kr:42599/vurnerability", formData, {
+			// .post("vulnerability", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
@@ -76,11 +76,7 @@ async function send_vurnerability(fileName, module_name, module_version) {
 		.then((res) => {
 			// save json file as class
 
-			var result = res.data.vulns;
-			console.log(result);
-
-			//map data
-
+			var result = res.data;
 			console.log(result);
 		})
 		.catch((err) => {

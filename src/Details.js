@@ -8,7 +8,7 @@ async function get_example_flow(fileNum) {
 	formData.append("fileNum", fileNum);
 
 	await axios
-		//.post("http://pwnable.co.kr:42599/get_example_flow", formData, {
+		//.post("http://pwnable.co.kr:42599/get_example_flow/", formData, {
 		.post("get_example_flow", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
@@ -27,7 +27,8 @@ async function get_example_flow(fileNum) {
 }
 
 function Details(props) {
-	const example_list = ["1", "2", "3", "4", "5"];
+	// props.example
+	const example = useLocation().state?.example;
 
 	const setExample = (e) => {
 		e.preventDefault();
@@ -36,14 +37,7 @@ function Details(props) {
 
 	return (
 		<div className="details">
-			example list
-			<div className="example-list">
-				{example_list.map((example) => (
-					<button className="example-button" onClick={setExample}>
-						{example}
-					</button>
-				))}
-			</div>
+			example list {example}
 			<div className="details-header">
 				<h1>Details</h1>
 			</div>
