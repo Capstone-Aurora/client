@@ -11,6 +11,34 @@
 	overflow: auto;
 }
 
+.dependency-content {
+	display: flex;
+	flex-direction: column;
+	width: 98%;
+	background-color: white;
+	overflow: auto;
+	align-items: flex-start;
+}
+
+.fix-header-page {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100px;
+	height: 100vh;
+	background-color: #fcd96f;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.home-button {
+	margin-top: 20px;
+	background-color: #fcd96f;
+	border: none;
+}
+
 .dependency-title {
 	font-size: 30px;
 	font-weight: bold;
@@ -20,10 +48,11 @@
 .dependency-content {
 	display: flex;
 	flex-direction: column;
-	width: 50vw;
-	height: 50vh;
+	width: 98%;
+
 	background-color: white;
 	overflow: auto;
+	align-items: flex-start;
 }
 
 .dependency-item {
@@ -41,4 +70,10 @@
 	font-size: 20px;
 	color: rgba(2, 0, 36, 1);
 	width: 20vw;
+}
+
+.image-style {
+	display: flex;
+
+	align-items: start;
 }

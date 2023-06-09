@@ -1,4 +1,7 @@
 import "./Details.css";
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
+import pythonStyle from "react-syntax-highlighter/dist/esm/styles/hljs/github";
+import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useState, useEffect, version } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -26,23 +29,76 @@ async function get_example_flow(fileNum) {
 		});
 }
 
-function Details(props) {
-	// props.example
-	const example = useLocation().state?.example;
+const fetchPythonCode = async (example) => {
+	const response = await fetch("example/example" + example + ".py");
+	console.log("response1 : ", response);
+	const code = await response.text();
+	return code;
+};
 
-	const setExample = (e) => {
-		e.preventDefault();
-		get_example_flow(e.target.innerText);
+function Details(props) {
+	const example = useLocation().state?.example;
+	const [pythonCode, setPythonCode] = useState("");
+
+	const customStyle = {
+		background: "#FFFFFF",
+		fontSize: "1rem",
+		padding: "0rem",
+		borderRadius: "4px",
+		lineHeight: "1.3",
+		width: "90%",
 	};
 
+	const keywordStyle = {
+		color: "#B30000",
+		fontWeight: "bold",
+	};
+
+	const stringStyle = {
+		color: "green",
+	};
+
+	useEffect(() => {
+		get_example_flow(example);
+		fetchPythonCode(example)
+			.then((code) => setPythonCode(code))
+			.catch((error) => console.error("Dd", error));
+	}, []);
+
 	return (
-		<div className="details">
-			example list {example}
-			<div className="details-header">
-				<h1>Details</h1>
+		<div>
+			<div className="fix-header-page">
+				<button className="home-button" onClick={() => {}}>
+					<Link to="/">
+						<img src="bug.png" alt="bug" width="60" height="60" />
+					</Link>
+				</button>
+				<h4>Aurora</h4>
 			</div>
-			<div className="details-body">
-				<h2>File Name</h2>
+			<div className="content-detail">
+				<div className="column-box">
+					<div className="content-title">
+						Code of "Example {example}"
+					</div>
+					<div className="content-box">
+						<SyntaxHighlighter
+							language="python"
+							customStyle={customStyle}
+							keywords={["if", "else", "elif", "import"]}
+							keywordsStyle={keywordStyle}
+							stringStyle={stringStyle}
+							style={pythonStyle}
+						>
+							{pythonCode}
+						</SyntaxHighlighter>
+					</div>
+				</div>
+				<div className="column-box">
+					<div className="content-title">Dependency Check</div>
+					<div className="content-box">File Name</div>
+					<div className="content-title">Vulnerability Flow</div>
+					<div className="content-box">File Name</div>
+				</div>
 			</div>
 		</div>
 	);

@@ -1,11 +1,11 @@
 html {
-	padding-left: 250px;
+	padding-left: 100px;
 }
 
 .home {
 	display: flex;
 	flex-direction: row;
-	padding-left: 250px;
+	padding-left: 150px;
 	align-items: center;
 	justify-content: center;
 }
@@ -87,7 +87,6 @@ html {
 .file-uploader {
 	display: flex;
 	height: 250px;
-	color: rgb(198, 198, 198);
 	width: 97%;
 	transition: all 0.3s;
 	flex-direction: column;
@@ -98,7 +97,7 @@ html {
 }
 
 .file-uploader.hover {
-	background-color: #e6e6e6;
+	background-color: #f0f0f0;
 	border: 1px solid #ccc;
 	color: black;
 }

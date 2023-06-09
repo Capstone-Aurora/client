@@ -66,7 +66,7 @@ function Home() {
 	const example_flow = ["2", "3", "4", "5", "6"];
 
 	return (
-		<div>
+		<div className="home">
 			<div className="fix-header">
 				<div className="home-header-title">
 					<img src="bug.png" alt="bug" width="40" height="40" />
@@ -112,7 +112,7 @@ function Home() {
 				{file && (
 					<button className="file-uploader-button" onClick={() => {}}>
 						<Link to="/dependency" state={{ fileName: fileName }}>
-							Dependency & Vulnerability Analysis (Click)
+							<h3>Dependency & Vulnerability Analysis (Click)</h3>
 						</Link>
 					</button>
 				)}
@@ -135,6 +135,7 @@ function Home() {
 					</button>
 				))}
 			</div>
+			<br />
 		</div>
 	);
 }
