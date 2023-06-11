@@ -103,6 +103,7 @@ function Dependency(props) {
 		console.log("formData : ", formData);
 		setImageUrl("");
 		var version_List = '"';
+		setDependency_vuln([]);
 		setVulnerabilityList([]);
 		for (var i = 0; i < formData.length; i++) {
 			if (i === formData.length - 1)
@@ -184,7 +185,9 @@ function Dependency(props) {
 				<h4>Aurora</h4>
 			</div>
 			<div className="dependency-content">
-				<div className="dependency-title">Dependency</div>
+				<div className="dependency-title">
+					Dependency & Vulnerability
+				</div>
 				<div className="content-title">
 					Dependency Version & Vulnerability
 				</div>
@@ -239,7 +242,7 @@ function Dependency(props) {
 				</div>
 				<div className="content-title">Vulnerability Detail</div>
 				<div className="content-box">
-					{dependency_vuln.length === 0 ? (
+					{/* {dependency_vuln.length === 0 ? (
 						<div className="dependency-item">No Vulnerability</div>
 					) : (
 						dependency.map((item, index) => (
@@ -247,23 +250,26 @@ function Dependency(props) {
 								<div className="dependency-item-name">
 									{item} &nbsp;
 									<div className="vulnerability-item">
-										{/* {vulnerabilityList[index] == null
-											? "aa"
-											: vulnerabilityList[index].map(
-													(item, index) => (
-														<div
-															className="vulnerability-item-name"
-															key={index}
-														>
-															{[item]}
-														</div>
-													)
-											  )} */}
+										{
+										// {vulnerabilityList[index] == null
+										// 	? "aa"
+										// 	: vulnerabilityList[index].map(
+										// 			(item, index) => (
+										// 				<div
+										// 					className="vulnerability-item-name"
+										// 					key={index}
+										// 				>
+										// 					{}
+										// 				</div>
+										// 			)
+										// 	  )} 
+											  }
 									</div>
 								</div>
 							</div>
 						))
-					)}
+					)} */}
+					<div className="vulnerability-detail">No Vulnerability</div>
 				</div>
 			</div>
 		</div>
