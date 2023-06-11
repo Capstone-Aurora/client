@@ -14,10 +14,11 @@
 .dependency-content {
 	display: flex;
 	flex-direction: column;
-	width: 98%;
+	width: 100%;
 	background-color: white;
 	overflow: auto;
-	align-items: flex-start;
+	align-items: center;
+	justify-content: center;
 }
 
 .fix-header-page {
@@ -45,16 +46,6 @@
 	color: rgba(2, 0, 36, 1);
 }
 
-.dependency-content {
-	display: flex;
-	flex-direction: column;
-	width: 98%;
-
-	background-color: white;
-	overflow: auto;
-	align-items: flex-start;
-}
-
 .dependency-item {
 	display: flex;
 	flex-direction: row;
@@ -72,8 +63,47 @@
 	width: 20vw;
 }
 
+.text-form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
 .image-style {
 	display: flex;
-
+	height: 100%;
 	align-items: start;
+}
+
+.dependency-item-vuln-safe {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	font-size: 15px;
+	font-weight: bold;
+	color: rgb(0, 116, 17);
+	width: 20vw;
+	border-color: rgb(0, 116, 17);
+	border-style: solid;
+	border-width: 2px;
+	margin-left: 10px;
+}
+
+.dependency-item-vuln-unsafe {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	font-size: 15px;
+	font-weight: bold;
+	color: rgb(255, 0, 0);
+	width: 20vw;
+	border-color: rgb(255, 0, 0);
+	border-style: solid;
+	border-width: 2px;
+	margin-left: 10px;
 }

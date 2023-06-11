@@ -1,6 +1,5 @@
 import "./Details.css";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import pythonStyle from "react-syntax-highlighter/dist/esm/styles/hljs/github";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useState, useEffect, version } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -39,31 +38,15 @@ const fetchPythonCode = async (example) => {
 function Details(props) {
 	const example = useLocation().state?.example;
 	const [pythonCode, setPythonCode] = useState("");
-
-	const customStyle = {
-		background: "#FFFFFF",
-		fontSize: "1rem",
-		padding: "0rem",
-		borderRadius: "4px",
-		lineHeight: "1.3",
-		width: "90%",
-	};
-
-	const keywordStyle = {
-		color: "#B30000",
-		fontWeight: "bold",
-	};
-
-	const stringStyle = {
-		color: "green",
-	};
+	const ADDED = [1, 2];
+	const REMOVED = [6];
 
 	useEffect(() => {
 		get_example_flow(example);
 		fetchPythonCode(example)
 			.then((code) => setPythonCode(code))
 			.catch((error) => console.error("Dd", error));
-	}, []);
+	}, [example]);
 
 	return (
 		<div>
@@ -82,12 +65,17 @@ function Details(props) {
 					</div>
 					<div className="content-box">
 						<SyntaxHighlighter
-							language="python"
-							customStyle={customStyle}
-							keywords={["if", "else", "elif", "import"]}
-							keywordsStyle={keywordStyle}
-							stringStyle={stringStyle}
-							style={pythonStyle}
+							wrapLines={true}
+							lineProps={(lineNumber) => {
+								let codeStyle = { display: "block" };
+								if (ADDED.includes(lineNumber)) {
+									codeStyle.backgroundColor = "#B9FFB9";
+								} else if (REMOVED.includes(lineNumber)) {
+									codeStyle.backgroundColor = "#FFC4C4";
+								}
+								return { codeStyle };
+							}}
+							style={docco}
 						>
 							{pythonCode}
 						</SyntaxHighlighter>
