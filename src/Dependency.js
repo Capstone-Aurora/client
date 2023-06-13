@@ -101,18 +101,19 @@ function Dependency(props) {
 	const fileName = useLocation().state?.fileName;
 	const [dependency, setDependency] = useState([]);
 	const [vulnerability, setVulnerability] = useState([]);
-
 	const [formData, setFormData] = useState([]);
 	const [imageUrl, setImageUrl] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
 	const [vulnerabilityList, setVulnerabilityList] = useState([]);
 	const [dependency_vuln, setDependency_vuln] = useState([]);
+
 	const handleInputChange = (index, event) => {
 		const values = [...formData];
 		values[index] = event.target.value;
 		setFormData(values);
 	};
+
 	useEffect(() => {}, [vulnerability]);
+
 	const submit = (e) => {
 		e.preventDefault();
 		console.log("formData : ", formData);
@@ -163,29 +164,6 @@ function Dependency(props) {
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			get_dependency(fileName, setDependency);
-			//let intervalId;
-			// const fetchImage = async () => {
-			// 	setIsLoading(true);
-			// 	// try {
-			// 	// 	const response = await axios.get(
-			// 	// 		"http://pwnable.co.kr/dependencies.png"
-			// 	// 	);
-			// 	// 	setImageUrl("http://pwnable.co.kr/dependencies.png");
-			// 	// 	console.log(response.data.url);
-			// 	// } catch (error) {
-			// 	// 	console.log(error);
-			// 	// }
-			// 	//setImageUrl("http://pwnable.co.kr/dependencies.png");
-			// 	setIsLoading(false);
-			// };
-
-			// if (imageUrl === "") {
-			// 	intervalId = setInterval(fetchImage, 1000);
-			// }
-
-			// return () => {
-			// 	clearInterval(intervalId);
-			// };
 		}, 1000);
 		return () => clearTimeout(timeout);
 	}, [imageUrl]);
@@ -230,11 +208,11 @@ function Dependency(props) {
 								<div
 									className={
 										dependency_vuln[index]
-											? "dependency-item-vuln-safe"
-											: "dependency-item-vuln-unsafe"
+											? "dependency-item-vuln-unsafe"
+											: "dependency-item-vuln-safe"
 									}
 								>
-									{dependency_vuln[index] ? "Safe" : "Unsafe"}
+									{dependency_vuln[index] ? "Unsafe" : "Safe"}
 								</div>
 							) : (
 								<div></div>
@@ -249,11 +227,11 @@ function Dependency(props) {
 				<div className="content-title">Dependency Diagram</div>
 				<div className="content-box">
 					<div className="image-style">
-						{isLoading ? (
+						{dependency_vuln.length == 0 ? (
 							<ClipLoader
 								color="#FF0000"
 								loading="true"
-								size={150}
+								size={50}
 								aria-label="Loading Spinner"
 								data-testid="loader"
 							/>
@@ -267,34 +245,71 @@ function Dependency(props) {
 				</div>
 				<div className="content-title">Vulnerability Detail</div>
 				<div className="content-box">
-					{/* {dependency_vuln.length === 0 ? (
-						<div className="dependency-item">No Vulnerability</div>
+					{vulnerabilityList.length === 0 ||
+					dependency_vuln.length === 0 ? (
+						<div className="dependency-item">Press Button</div>
 					) : (
 						dependency.map((item, index) => (
 							<div className="dependency-item" key={index}>
 								<div className="dependency-item-name">
-									{item} &nbsp;
-									<div className="vulnerability-item">
-										{
-										// {vulnerabilityList[index] == null
-										// 	? "aa"
-										// 	: vulnerabilityList[index].map(
-										// 			(item, index) => (
-										// 				<div
-										// 					className="vulnerability-item-name"
-										// 					key={index}
-										// 				>
-										// 					{}
-										// 				</div>
-										// 			)
-										// 	  )} 
-											  }
-									</div>
+									{vulnerabilityList[index] == undefined ? (
+										<div></div>
+									) : (
+										<div className="dependency-item-name">
+											{item} &nbsp;
+										</div>
+									)}
+								</div>
+								<div className="dependency-item-vuln">
+									{vulnerabilityList[index] == undefined ||
+									vulnerabilityList[index].length == 0 ? (
+										<div></div>
+									) : (
+										vulnerabilityList[index] &&
+										vulnerabilityList[index].map(
+											(item, index) => (
+												<div
+													key={index}
+													className="dependency-item-vuln"
+												>
+													<div className="dependency-item-vuln-title">
+														Id
+														<div className="dependency-item-vuln-detail">
+															{item.id}
+														</div>
+													</div>
+													<div className="dependency-item-vuln-title">
+														Summary
+														<div className="dependency-item-vuln-detail">
+															{item.summary}
+														</div>
+													</div>
+													<div className="dependency-item-vuln-title">
+														Details
+														<div className="dependency-item-vuln-detail">
+															{item.details}
+														</div>
+													</div>
+													<div className="dependency-item-vuln-title">
+														Modified
+														<div className="dependency-item-vuln-detail">
+															{item.modified}
+														</div>
+													</div>
+													<div className="dependency-item-vuln-title">
+														Published
+														<div className="dependency-item-vuln-detail">
+															{item.published}
+														</div>
+													</div>
+												</div>
+											)
+										)
+									)}
 								</div>
 							</div>
 						))
-					)} */}
-					<div className="vulnerability-detail">No Vulnerability</div>
+					)}
 				</div>
 			</div>
 		</div>

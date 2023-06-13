@@ -83,6 +83,7 @@ function Details(props) {
 	const ADDED = [1, 2];
 	const REMOVED = [6];
 	const url = "dependency/dependencies" + example + ".png";
+	const html = "file/ex" + example + ".html";
 	const flowSource = ["app.config", "request.files['f'].filename"];
 	const flowSink = [
 		"request.files['f'].filename",
@@ -121,6 +122,8 @@ function Details(props) {
 						<div className="content-box-code">
 							<SyntaxHighlighter
 								wrapLines={true}
+								language="python"
+								showLineNumbers={true}
 								lineProps={(lineNumber) => {
 									let codeStyle = { display: "block" };
 									if (ADDED.includes(lineNumber)) {
@@ -184,7 +187,7 @@ function Details(props) {
 				<div className="content-box">
 					<iframe
 						className="iframe"
-						src="file/ex1.html"
+						src={html}
 						title="flow"
 						width="100%"
 						height="100%"
