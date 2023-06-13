@@ -182,20 +182,13 @@ function Details(props) {
 				</div>
 				<div className="content-title">Vulnerability Flow</div>
 				<div className="content-box">
-					<div className="row">
-						<iframe
-							src="file/ex1.html"
-							title="flow"
-							width="100%"
-							height="100%"
-						></iframe>
-						<iframe
-							src="file/ex1.html"
-							title="flow"
-							width="100%"
-							height="100%"
-						></iframe>
-					</div>
+					<iframe
+						className="iframe"
+						src="file/ex1.html"
+						title="flow"
+						width="100%"
+						height="100%"
+					></iframe>
 				</div>
 			</div>
 		</div>
