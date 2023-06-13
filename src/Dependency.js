@@ -9,8 +9,8 @@ async function get_dependency(fileName, setDependency) {
 	formData.append("fileName", fileName);
 	var dependency = [];
 	await axios
-		//.post("http://pwnable.co.kr:42599/dependency/", formData, {
-		.post("dependency", formData, {
+		.post("http://pwnable.co.kr:42599/dependency/", formData, {
+			//.post("dependency", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
@@ -35,8 +35,8 @@ async function send_version(fileName, versionList) {
 	formData.append("fileName", fileName);
 	formData.append("versionList", versionList);
 	await axios
-		//.post("http://pwnable.co.kr:42599/version/", formData, {
-		.post("version", formData, {
+		.post("http://pwnable.co.kr:42599/version/", formData, {
+			//.post("version", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
@@ -66,8 +66,8 @@ async function send_vurnerability(
 	formData.append("module_name", module_name);
 	formData.append("module_version", module_version);
 	await axios
-		//.post("http://pwnable.co.kr:42599/vurnerability", formData, {
-		.post("vulnerability", formData, {
+		.post("http://pwnable.co.kr:42599/vurnerability", formData, {
+			//.post("vulnerability", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",

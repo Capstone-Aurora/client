@@ -52,8 +52,8 @@ async function get_example_flow(fileNum) {
 	formData.append("fileNum", fileNum);
 
 	await axios
-		//.post("http://pwnable.co.kr:42599/get_example_flow/", formData, {
-		.post("get_example_flow", formData, {
+		.post("http://pwnable.co.kr:42599/get_example_flow/", formData, {
+			//.post("get_example_flow", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
