@@ -34,20 +34,20 @@ async function send_version(fileName, versionList) {
 	const formData = new FormData();
 	formData.append("fileName", fileName);
 	formData.append("versionList", versionList);
-	await axios
-		.post("http://pwnable.co.kr:42599/version/", formData, {
-			//.post("version", formData, {
-			headers: {
-				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-				"Access-Control-Allow-Headers": "Content-Type",
-				"Content-Type": "multipart/form-data",
-			},
-		})
-		.then((res) => {})
-		.catch((err) => {
-			console.log(err);
-		});
+	// await axios
+	// 	.post("http://pwnable.co.kr:42599/version/", formData, {
+	// 		//.post("version", formData, {
+	// 		headers: {
+	// 			"Access-Control-Allow-Origin": "*",
+	// 			"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+	// 			"Access-Control-Allow-Headers": "Content-Type",
+	// 			"Content-Type": "multipart/form-data",
+	// 		},
+	// 	})
+	// 	.then((res) => {})
+	// 	.catch((err) => {
+	// 		console.log(err);
+	// 	});
 }
 
 async function send_vurnerability(
@@ -105,6 +105,7 @@ function Dependency(props) {
 	const [imageUrl, setImageUrl] = useState("");
 	const [vulnerabilityList, setVulnerabilityList] = useState([{}]);
 	const [dependency_vuln, setDependency_vuln] = useState([]);
+	const [isFetching, setIsFetching] = useState(false);
 
 	const handleInputChange = (index, event) => {
 		const values = [...formData];
@@ -116,8 +117,6 @@ function Dependency(props) {
 
 	const submit = (e) => {
 		e.preventDefault();
-		// console.log("formData : ", formData);
-		setImageUrl("");
 		var version_List = '"';
 		var tmp1 = [],
 			tmp2 = [];
@@ -148,27 +147,43 @@ function Dependency(props) {
 		send_version(fileName, version_List);
 		return false;
 	};
-	/**
-	 * 0.7.0
-	 * 2022.12.7
-	 * 1.15.1
-	 * 2.1.2rc
-	 */
+	const fetchImage = async () => {
+		const response = await fetch("http://pwnable.co.kr/dependencies.png");
+		if (response.ok) {
+			setIsFetching(false);
+			setImageUrl(response.url);
+		}
+	};
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			get_dependency(fileName, setDependency);
 		}, 1000);
 		return () => clearTimeout(timeout);
-	}, [imageUrl]);
+	}, [fileName]);
 
-	// useEffect(() => {
-	// 	console.log("dependency_vuln : ", dependency_vuln);
-	// 	console.log("vulnerabilityList : ", vulnerabilityList);
-	// }, [dependency_vuln, vulnerabilityList]);
+	useEffect(() => {
+		let intervalId;
+
+		if (isFetching) {
+			intervalId = setInterval(() => {
+				fetchImage();
+			}, 1000);
+		}
+
+		return () => {
+			clearInterval(intervalId);
+		};
+	}, [isFetching]);
+
 	return (
 		<div>
 			<div className="fix-header-page">
-				<button className="home-button" onClick={() => {}}>
+				<button
+					className="home-button"
+					onClick={() => {
+						setIsFetching(true);
+					}}
+				>
 					<Link to="/">
 						<img src="bug.png" alt="bug" width="60" height="60" />
 					</Link>
@@ -219,137 +234,189 @@ function Dependency(props) {
 				</form>
 				<div className="content-title">Dependency Diagram</div>
 				<div className="content-box">
-					<div className="image-style">
-						{dependency_vuln.length == 0 ? (
-							<ClipLoader
-								color="#FF0000"
-								loading="true"
-								size={50}
-								aria-label="Loading Spinner"
-								data-testid="loader"
-							/>
-						) : (
-							<img
-								src={"http://pwnable.co.kr/dependencies.png"}
-								alt="인터넷 이미지"
-							/>
-						)}
-					</div>
+					{vulnerabilityList.length === 0 ||
+					dependency_vuln.length === 0 ? (
+						<h4>Press Button</h4>
+					) : (
+						// <div className="image-style">
+						// 	{imageUrl == "" ? (
+						// 		<ClipLoader
+						// 			color="#FF0000"
+						// 			loading="true"
+						// 			size={50}
+						// 			aria-label="Loading Spinner"
+						// 			data-testid="loader"
+						// 		/>
+						// 	) : (
+						// 		<img
+						// 			src={
+						// 				"http://pwnable.co.kr/dependencies.png"
+						// 			}
+						// 			alt="인터넷 이미지"
+						// 		/>
+						// 	)}
+						// </div>
+						<div className="image-style">
+							{dependency_vuln.length == 0 ? (
+								<ClipLoader
+									color="#FF0000"
+									loading="true"
+									size={50}
+									aria-label="Loading Spinner"
+									data-testid="loader"
+								/>
+							) : (
+								<img
+									src={
+										"http://pwnable.co.kr/dependencies.png"
+									}
+									alt="인터넷 이미지"
+								/>
+							)}
+						</div>
+					)}
 				</div>
 				<div className="content-title">Vulnerability Detail</div>
 				<div className="content-box">
 					{vulnerabilityList.length === 0 ||
 					dependency_vuln.length === 0 ? (
-						<div className="dependency-item">Press Button</div>
+						<h4>Press Button</h4>
 					) : (
 						dependency.map((item, index) => (
-							<div className="dependency-item" key={index}>
-								<div className="dependency-item-name">
-									{vulnerabilityList[index] == undefined ? (
-										<div className="noline"></div>
-									) : (
-										<div className="dependency-item-name">
-											{item} &nbsp;
-										</div>
+							<div>
+								{index > 0 &&
+									vulnerabilityList[index] != undefined && (
+										<div className="line" />
 									)}
-								</div>
-								<div className="dependency-item-vuln">
-									{dependency_vuln[index] === true &&
-										vulnerabilityList[index].map(
-											(item, index) => (
-												<div
-													key={index}
-													className="dependency-item-vuln"
-												>
-													<div className="dependency-item-vuln-title">
-														Id
-														<div className="dependency-item-vuln-detail">
-															{item.id}
-														</div>
-													</div>
-													<div className="dependency-item-vuln-title">
-														Summary
-														<div className="dependency-item-vuln-detail">
-															{item.summary}
-														</div>
-													</div>
-													<div className="dependency-item-vuln-title">
-														Details
-														<div className="dependency-item-vuln-detail">
-															{item.details}
-														</div>
-													</div>
-													<div className="dependency-item-vuln-title">
-														Modified
-														<div className="dependency-item-vuln-detail">
-															{item.modified}
-														</div>
-													</div>
-													<div className="dependency-item-vuln-title">
-														Published
-														<div className="dependency-item-vuln-detail">
-															{item.published}
-														</div>
-													</div>
-													<div className="dependency-item-vuln-title">
-														References
-														<div className="dependency-item-vuln-detail">
-															type :{" "}
-															{
-																item
-																	.references[0]
-																	.type
-															}
-														</div>
-														<div className="dependency-item-vuln-detail">
-															url :{" "}
-															{
-																// hyperlink to item.references[0].url
-															}
-														</div>
-													</div>
-
-													<div className="dependency-item-vuln-title">
-														Affected
-														<div className="dependency-item-vuln-detail">
-															severity : &nbsp;
-															{
-																item.affected[0]
-																	.ecosystem_specific
-																	.severity
-															}
-														</div>
-														<div className="dependency-item-vuln-detail">
-															database_specific :
-															&nbsp;
-															<Link
-																to={
-																	item
-																		.affected[0]
-																		.database_specific
-																		.source
-																}
-															>
-																{
-																	item
-																		.affected[0]
-																		.database_specific
-																		.source
-																}
-															</Link>
+								<div className="dependency-item" key={index}>
+									<div className="dependency-item-name">
+										{vulnerabilityList[index] !=
+											undefined && (
+											<div className="dependency-item-name">
+												{item} &nbsp;
+											</div>
+										)}
+									</div>
+									<div className="dependency-item-vuln">
+										{dependency_vuln[index] === true &&
+											vulnerabilityList[index].map(
+												(item, index) => (
+													<div
+														key={index}
+														className="dependency-item-vuln"
+													>
+														{index > 0 && (
+															<div className="line" />
+														)}
+														<div className="dependency-item-vuln-title">
+															Id
+															<div className="dependency-item-vuln-detail">
+																{item.id}
+															</div>
 														</div>
 														<div className="dependency-item-vuln-title">
-															Schema Version
+															Summary
 															<div className="dependency-item-vuln-detail">
-																{
-																	item.schema_version
-																}
+																{item.summary}
+															</div>
+														</div>
+														<div className="dependency-item-vuln-title">
+															Details
+															<div className="dependency-item-vuln-detail">
+																{item.details}
+															</div>
+														</div>
+														<div className="dependency-item-vuln-title">
+															Modified
+															<div className="dependency-item-vuln-detail">
+																{item.modified}
+															</div>
+														</div>
+														<div className="dependency-item-vuln-title">
+															Published
+															<div className="dependency-item-vuln-detail">
+																{item.published}
+															</div>
+														</div>
+														<div className="dependency-item-vuln-title">
+															References
+															{item.references.map(
+																(i, index) => (
+																	<div>
+																		<div
+																			className="dependency-item-vuln-detail"
+																			key={
+																				index
+																			}
+																		>
+																			<div className="dependency-item-vuln-detail-title">
+																				{
+																					item
+																						.references[
+																						index
+																					]
+																						.type
+																				}
+																			</div>
+																			<Link
+																				to={
+																					item
+																						.references[
+																						index
+																					]
+																						.url
+																				}
+																			>
+																				{
+																					item
+																						.references[
+																						index
+																					]
+																						.url
+																				}
+																			</Link>
+																		</div>
+																	</div>
+																)
+															)}
+														</div>
+														<div className="dependency-item-vuln-title">
+															Affected
+															<div className="dependency-item-vuln-detail">
+																<div className="dependency-item-vuln-detail-title">
+																	database_specific
+																	:
+																</div>
+
+																<Link
+																	to={
+																		item
+																			.affected[0]
+																			.database_specific
+																			.source
+																	}
+																>
+																	{
+																		item
+																			.affected[0]
+																			.database_specific
+																			.source
+																	}
+																</Link>
+															</div>
+															<div className="dependency-item-vuln-title">
+																Schema Version
+																<div className="dependency-item-vuln-detail">
+																	{
+																		item.schema_version
+																	}
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											)
-										)}
+												)
+											)}
+									</div>
 								</div>
 							</div>
 						))

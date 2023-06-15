@@ -140,7 +140,9 @@
 	background-color: white;
 	overflow: auto;
 }
-
+.dependency-item-vuln-detail-title {
+	width: 150px;
+}
 .dependency-item-vuln-detail {
 	display: flex;
 	flex-direction: row;
@@ -149,11 +151,18 @@
 	font-weight: normal;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
-	justify-content: space-between;
+
 	background-color: white;
 	overflow: auto;
 }
 
 .noline {
 	height: 0px;
+}
+
+.line {
+	height: 1px;
+	width: 100%;
+	background-color: rgb(198, 198, 198);
+	margin-block: 20px;
 }
