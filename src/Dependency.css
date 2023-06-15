@@ -153,3 +153,7 @@
 	background-color: white;
 	overflow: auto;
 }
+
+.noline {
+	height: 0px;
+}

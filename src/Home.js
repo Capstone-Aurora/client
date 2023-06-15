@@ -9,8 +9,13 @@ function file_send(ip, file) {
 	formData.append("file", file);
 
 	axios
-		.post("file_send", formData, {
+		.post("http://pwnable.co.kr:42599/file_send/", formData, {
+			//.post("file_send", formData, {
+
 			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+				"Access-Control-Allow-Headers": "Content-Type",
 				"Content-Type": "multipart/form-data",
 				ip: ip,
 			},

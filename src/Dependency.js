@@ -66,7 +66,7 @@ async function send_vurnerability(
 	formData.append("module_name", module_name);
 	formData.append("module_version", module_version);
 	await axios
-		.post("http://pwnable.co.kr:42599/vurnerability", formData, {
+		.post("http://pwnable.co.kr:42599/vulnerability/", formData, {
 			//.post("vulnerability", formData, {
 			headers: {
 				"Access-Control-Allow-Origin": "*",
@@ -103,7 +103,7 @@ function Dependency(props) {
 	const [vulnerability, setVulnerability] = useState([]);
 	const [formData, setFormData] = useState([]);
 	const [imageUrl, setImageUrl] = useState("");
-	const [vulnerabilityList, setVulnerabilityList] = useState([]);
+	const [vulnerabilityList, setVulnerabilityList] = useState([{}]);
 	const [dependency_vuln, setDependency_vuln] = useState([]);
 
 	const handleInputChange = (index, event) => {
@@ -112,11 +112,11 @@ function Dependency(props) {
 		setFormData(values);
 	};
 
-	useEffect(() => {}, [vulnerability]);
+	useEffect(() => {}, [vulnerability, dependency_vuln, vulnerabilityList]);
 
 	const submit = (e) => {
 		e.preventDefault();
-		console.log("formData : ", formData);
+		// console.log("formData : ", formData);
 		setImageUrl("");
 		var version_List = '"';
 		var tmp1 = [],
@@ -144,13 +144,6 @@ function Dependency(props) {
 			);
 		}
 		console.log("dependency_vuln : ", dependency_vuln);
-		console.log(
-			"dependency_vuln[0][1][2][3]: ",
-			dependency_vuln[0],
-			dependency_vuln[1],
-			dependency_vuln[2],
-			dependency_vuln[3]
-		);
 		console.log("vulnerabilityList : ", vulnerabilityList);
 		send_version(fileName, version_List);
 		return false;
@@ -168,10 +161,10 @@ function Dependency(props) {
 		return () => clearTimeout(timeout);
 	}, [imageUrl]);
 
-	useEffect(() => {
-		console.log("dependency_vuln : ", dependency_vuln);
-		console.log("vulnerabilityList : ", vulnerabilityList);
-	}, [dependency_vuln, vulnerabilityList]);
+	// useEffect(() => {
+	// 	console.log("dependency_vuln : ", dependency_vuln);
+	// 	console.log("vulnerabilityList : ", vulnerabilityList);
+	// }, [dependency_vuln, vulnerabilityList]);
 	return (
 		<div>
 			<div className="fix-header-page">
@@ -253,7 +246,7 @@ function Dependency(props) {
 							<div className="dependency-item" key={index}>
 								<div className="dependency-item-name">
 									{vulnerabilityList[index] == undefined ? (
-										<div></div>
+										<div className="noline"></div>
 									) : (
 										<div className="dependency-item-name">
 											{item} &nbsp;
@@ -261,11 +254,7 @@ function Dependency(props) {
 									)}
 								</div>
 								<div className="dependency-item-vuln">
-									{vulnerabilityList[index] == undefined ||
-									vulnerabilityList[index].length == 0 ? (
-										<div></div>
-									) : (
-										vulnerabilityList[index] &&
+									{dependency_vuln[index] === true &&
 										vulnerabilityList[index].map(
 											(item, index) => (
 												<div
@@ -302,15 +291,72 @@ function Dependency(props) {
 															{item.published}
 														</div>
 													</div>
+													<div className="dependency-item-vuln-title">
+														References
+														<div className="dependency-item-vuln-detail">
+															type :{" "}
+															{
+																item
+																	.references[0]
+																	.type
+															}
+														</div>
+														<div className="dependency-item-vuln-detail">
+															url :{" "}
+															{
+																// hyperlink to item.references[0].url
+															}
+														</div>
+													</div>
+
+													<div className="dependency-item-vuln-title">
+														Affected
+														<div className="dependency-item-vuln-detail">
+															severity : &nbsp;
+															{
+																item.affected[0]
+																	.ecosystem_specific
+																	.severity
+															}
+														</div>
+														<div className="dependency-item-vuln-detail">
+															database_specific :
+															&nbsp;
+															<Link
+																to={
+																	item
+																		.affected[0]
+																		.database_specific
+																		.source
+																}
+															>
+																{
+																	item
+																		.affected[0]
+																		.database_specific
+																		.source
+																}
+															</Link>
+														</div>
+														<div className="dependency-item-vuln-title">
+															Schema Version
+															<div className="dependency-item-vuln-detail">
+																{
+																	item.schema_version
+																}
+															</div>
+														</div>
+													</div>
 												</div>
 											)
-										)
-									)}
+										)}
 								</div>
 							</div>
 						))
 					)}
 				</div>
+				<br />
+				<br />
 			</div>
 		</div>
 	);

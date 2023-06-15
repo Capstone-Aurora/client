@@ -5,39 +5,6 @@ import { useState, useEffect, version } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
-const pythonStyle = {
-	...docco,
-	width: "100%",
-	'code[class*="language-"]': {
-		color: "#000000",
-	},
-	'span[class*="number"]': {
-		color: "#ae81ff",
-	},
-	"span.token.keyword": {
-		color: "#66d9ef",
-	},
-	"span.token.string": {
-		color: "#e6db74",
-	},
-	"span.token.operator": {
-		color: "#f92672",
-	},
-	"span.token.comment": {
-		color: "#75715e",
-		fontStyle: "italic",
-	},
-	"span.token.punctuation": {
-		color: "#f8f8f2",
-	},
-	"span.line-1": {
-		color: "red",
-	},
-	"span.line-3": {
-		color: "red",
-	},
-};
-
 const customStyle = {
 	background: "#FFFFFF",
 	fontSize: "1rem",
@@ -80,10 +47,25 @@ const fetchPythonCode = async (example) => {
 function Details(props) {
 	const example = useLocation().state?.example;
 	const [pythonCode, setPythonCode] = useState("");
-	const ADDED = [1, 2];
-	const REMOVED = [6];
+	const [buttonPressed, setButtonPressed] = useState(0);
+	const safe = [[12], [], [], [], []];
+	const unsafe = [
+		[
+			[9, 10, 11, 13],
+			[9, 10, 11],
+		],
+		[
+			[70, 78, 82],
+			[70, 78, 82],
+		],
+		[[9], [9]],
+		[[11], [12]],
+		[
+			[61, 64],
+			[61, 64],
+		],
+	];
 	const url = "dependency/dependencies" + example + ".png";
-	const html = "file/ex" + example + ".html";
 	const flowSource = ["app.config", "request.files['f'].filename"];
 	const flowSink = [
 		"request.files['f'].filename",
@@ -95,6 +77,14 @@ function Details(props) {
 		"request.files['f'].save()",
 	];
 	const flowSanitizers = ["secure_filename()"];
+
+	const changeColor = () => {
+		if (buttonPressed === 0) {
+			setButtonPressed(1);
+		} else {
+			setButtonPressed(0);
+		}
+	};
 
 	useEffect(() => {
 		get_example_flow(example);
@@ -125,16 +115,26 @@ function Details(props) {
 								language="python"
 								showLineNumbers={true}
 								lineProps={(lineNumber) => {
-									let codeStyle = { display: "block" };
-									if (ADDED.includes(lineNumber)) {
-										codeStyle.backgroundColor = "#B9FFB9";
-									} else if (REMOVED.includes(lineNumber)) {
-										codeStyle.backgroundColor = "#FFC4C4";
+									let style = { display: "block" };
+									if (
+										safe[example - 1].includes(lineNumber)
+									) {
+										console.log(
+											"lineNumber : ",
+											lineNumber
+										);
+										style.backgroundColor = "#B9FFB9";
+									} else if (
+										unsafe[example - 1][
+											buttonPressed
+										].includes(lineNumber)
+									) {
+										style.backgroundColor = "#FFC4C4";
 									}
-									return { codeStyle };
+									return { style };
 								}}
 								customStyle={customStyle}
-								style={pythonStyle}
+								style={docco}
 							>
 								{pythonCode}
 							</SyntaxHighlighter>
@@ -167,15 +167,22 @@ function Details(props) {
 									))}
 								</div>
 							</div>
+
 							<div className="vulnerability-title">
 								Sanitizer
 								<div className="vulnerability-content">
 									{flowSanitizers.map((item, index) => (
-										<div
-											className="vulnerability-content"
-											key={index}
-										>
+										<div key={index}>
 											{item}
+
+											<button
+												onClick={changeColor}
+												className="sanButton"
+											>
+												{buttonPressed === 0
+													? "OFF"
+													: "ON"}
+											</button>
 										</div>
 									))}
 								</div>
@@ -183,16 +190,8 @@ function Details(props) {
 						</div>
 					</div>
 				</div>
-				<div className="content-title">Vulnerability Flow</div>
-				<div className="content-box">
-					<iframe
-						className="iframe"
-						src={html}
-						title="flow"
-						width="100%"
-						height="100%"
-					></iframe>
-				</div>
+				<br />
+				<br />
 			</div>
 		</div>
 	);
